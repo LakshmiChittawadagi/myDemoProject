@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3740dbfe-8506-4967-b935-41220cf72c32" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mainflow" doc:id="4632be33-4704-42da-b8dc-6ec33ef7722b" >
+		<http:listener doc:name="Listener" doc:id="2b606b87-7145-40f7-9fec-b8fd600d0705" path="/synchronous" config-ref="HTTP_Listener_config"/>
+		<flow-ref doc:name="Flow Reference" doc:id="50fcbc81-4088-4a9e-a560-aba9e4f5c071" name="synchosSub_Flow"/>
+		<set-payload value='#["hello this is world ........"&#10;++ " is "&#10;++ (attributes.method default "")&#10;++ " your method "&#10;++ (attributes.queryParams.name1 default "")]' doc:name="Set Payload" doc:id="975483e8-6119-4770-a07a-1d3b1d051013" />
+		<logger level="INFO" doc:name="Logger" doc:id="e6621189-75c8-4c82-a065-c105cf182da3" message='"this is logger displays at end of console......"'/>
+		<set-variable value='#["hello this is variable..  "]' doc:name="Set Variable" doc:id="ae1a44fe-53b1-41eb-8101-1439ffd870b0" variableName="name"/>
+		<set-payload value='#["this is last ok...."]' doc:name="Set Payload" doc:id="480a3bdb-deb1-4f07-b196-fff29d5e441e" />
+	</flow>
+	<sub-flow name="synchosSub_Flow" doc:id="c9f68ed4-972f-474b-8f37-26bca367353d" >
+		<set-payload value='#["hello this is sub flow..."]' doc:name="Set Payload" doc:id="b99f1a49-52ef-458a-8dec-57ecf120710d" />
+	</sub-flow>
+</mule>
